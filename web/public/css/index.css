@@ -1,0 +1,29 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+.action {
+	float: right;
+	width: 144px;
+	margin-right: 50px;
+}
+
+.action li {
+	float: left;
+	list-style-type: none;
+	border: 1px solid;
+	border-color: white;
+	background-color: gray;
+}
+
+.action a {
+	display: block;
+	text-decoration: none;
+	color: white;
+	padding: 10px;
+}
+
+h1 {
+	clear: both;
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+		<title>Sign Up</title>
+		<link rel="stylesheet" type="text/css" href="/css/reset.css">
+		<script type="text/javascript" src="/js/signUp.js"></script>
+	</head>
+	<body>
+		<form id="signUpForm" action="verifySignUp" method="post">
+			<ul>
+				<span id="errmsg" style="color:red; display:none">
+					Inconsistent password! Please input again!
+				</span>
+				<li>Name:<input type="text" name="name"></li>
+				<li>Password:<input id="password" type="password" name="password"></li>
+				<li>Verify Password:<input id="verifyPassword" type="password"></li>
+				<li><input type="submit" value="Submit"></li>
+			</ul>
+		</form>
+	</body>
+</html>

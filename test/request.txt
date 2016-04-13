@@ -1,0 +1,11 @@
+POST / HTTP/1.1
+Host: www.gnu.org
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36
+Accept-Encoding: gzip,deflate,sdch
+Content-Length: 41
+Accept-Language: en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4,zh-TW;q=0.2
+Cookie: hello=hi; hi=nice; nice=to; to=meet; meet=you;
+
+hello=hi&hi=nice&nice=to&to=meet&meet=you
