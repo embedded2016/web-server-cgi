@@ -1,0 +1,5 @@
+*.o
+*.so
+bin/
+obj/
+web/plugins/
