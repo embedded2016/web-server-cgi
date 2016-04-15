@@ -11,16 +11,16 @@ static void function_handler(cgi_http_connection_t *connection)
 
 static void travel(cgi_url_dltrie_t *url_trie)
 {
-    if(url_trie != NULL) {
+    if (url_trie != NULL) {
         printf("%s\n",url_trie->key);
         travel(url_trie->linker.child);
         travel(url_trie->linker.sibling);
     }
 }
 
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
-    if(argc < 2) {
+    if (argc < 2) {
         fprintf(stderr,"No enough parameter.\n");
         exit(EXIT_FAILURE);
     }
@@ -29,10 +29,10 @@ int main(int argc,char **argv)
     FILE *fp = fopen(argv[1],"r");
 
     cgi_url_dltrie_t *url_trie = NULL;
-    while(!feof(fp)) {
+    while (!feof(fp)) {
         fscanf(fp,"%s",buffer);
-        cgi_url_dltrie_insert(&url_trie,buffer,function_handler,NULL);
-        cgi_handler_t handler = cgi_url_dltrie_find(url_trie,buffer);
+        cgi_url_dltrie_insert(&url_trie, buffer, function_handler, NULL);
+        cgi_handler_t handler = cgi_url_dltrie_find(url_trie, buffer);
         handler(NULL);
     }
 

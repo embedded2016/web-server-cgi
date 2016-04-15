@@ -5,23 +5,20 @@
 
 static void* print(void *arg)
 {
-    printf("%ld\n", (long)arg);
+    printf("%ld\n", (long) arg);
     return NULL;
 }
 
 int main()
 {
     cgi_task_queue_t *head = NULL;
-    long i;
-    for(i = 0; i < 10; ++i) {
-        cgi_task_queue_push(&head, print, (void*)i);
-    }
+    for (long i = 0; i < 10; ++i)
+        cgi_task_queue_push(&head, print, (void *) i);
     cgi_task_queue_t *tmp = NULL;
-    for(;;) {
+    for (;;) {
         tmp = cgi_task_queue_pop(&head);
-        if(tmp == NULL) {
+        if (tmp == NULL)
             break;
-        }
         tmp->callback(tmp->arg);
     }
     return 0;
