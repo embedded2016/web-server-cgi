@@ -21,9 +21,9 @@
 #define CGI_NAME_BUFFER_SIZE 128
 #define CGI_FILE_BUFFER_SIZE 4096
 
-#define CGI_WEB_ROOT "../web/"
-#define CGI_WEB_DLPATH "../web/lib/"
-#define CGI_WEB_PUBLIC_PATH "../web/public/"
+#define CGI_WEB_ROOT            "../web/"
+#define CGI_WEB_DLPATH          "../web/lib/"
+#define CGI_WEB_PUBLIC_PATH     "../web/public/"
 
 typedef enum CGI_OBJECT CGI_OBJECT;
 typedef enum LINE_STATUS LINE_STATUS;
@@ -127,7 +127,7 @@ struct cgi_url_dltrie {
 };
 
 struct cgi_task_queue {
-    void* (*callback)(void*);
+    void *(*callback)(void *);
     void *arg;
     CGI_SLIST_ENTRY(cgi_task_queue_t) linker;
 };

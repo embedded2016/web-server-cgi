@@ -76,12 +76,10 @@ void cgi_url_dltrie_init(cgi_url_dltrie_t **head_ptr)
 char *cgi_url_strpbrk(char *url)
 {
     char *scanner = url;
-    while (*scanner != '/' && *scanner != '\0') {
+    while (*scanner != '/' && *scanner != '\0')
         ++scanner;
-    }
-    if (*scanner == '/') {
+    if (*scanner == '/')
         ++scanner;
-    }
     return scanner;
 }
 
@@ -100,9 +98,9 @@ void cgi_url_dltrie_insert(cgi_url_dltrie_t **head_ptr, char *url,
         if (head == NULL) {
             *head_ptr = cgi_url_dltrie_create();
             head = *head_ptr;
-            snprintf(head->key,diff + 1,"%s",url);
-        } else if (memcmp(head->key, url,diff)) {
-            head_ptr = &CGI_DLTRIE_SIBLING(head,linker);
+            snprintf(head->key, diff + 1, "%s", url);
+        } else if (memcmp(head->key, url, diff)) {
+            head_ptr = &CGI_DLTRIE_SIBLING(head, linker);
             continue;
         }
         if (*scanner == '\0') {
@@ -110,7 +108,7 @@ void cgi_url_dltrie_insert(cgi_url_dltrie_t **head_ptr, char *url,
             head->dlhandle = dlhandle;
             break;
         }
-        head_ptr = &CGI_DLTRIE_CHILD(head,linker);
+        head_ptr = &CGI_DLTRIE_CHILD(head, linker);
         url = scanner;
     }
 }
@@ -123,18 +121,17 @@ cgi_handler_t cgi_url_dltrie_find(cgi_url_dltrie_t *head,char *url)
     while (1) {
         scanner = cgi_url_strpbrk(url);
         diff = scanner - url;
-        if(head == NULL || url == NULL || *url == '\0') {
+        if (head == NULL || url == NULL || *url == '\0')
             break;
-        }
-        if (memcmp(head->key,url,diff)) {
-            head = CGI_DLTRIE_SIBLING(head,linker);
+        if (memcmp(head->key, url, diff)) {
+            head = CGI_DLTRIE_SIBLING(head, linker);
             continue;
         }
         if (*scanner == '\0') {
             handler = head->handler;
             break;
         }
-        head = CGI_DLTRIE_CHILD(head,linker);
+        head = CGI_DLTRIE_CHILD(head, linker);
         url = scanner;
     }
     return handler;

@@ -13,9 +13,10 @@
 void do_response(cgi_http_connection_t *connection)
 {
     char buffer[CGI_NAME_BUFFER_SIZE];
-    snprintf(buffer, CGI_NAME_BUFFER_SIZE, "%spublic%s", CGI_WEB_ROOT, connection->url);
+    snprintf(buffer, CGI_NAME_BUFFER_SIZE,
+             "%spublic%s", CGI_WEB_ROOT, connection->url);
     struct stat st;
-    if(stat(buffer, &st) != -1 && S_ISREG(st.st_mode)) {
+    if (stat(buffer, &st) != -1 && S_ISREG(st.st_mode)) {
         snprintf(buffer, CGI_NAME_BUFFER_SIZE, "public%s", connection->url);
         cgi_http_write_request_line(connection, OK);
         cgi_http_write_file(connection, buffer);

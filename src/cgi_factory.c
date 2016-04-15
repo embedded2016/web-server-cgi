@@ -14,7 +14,7 @@ void *cgi_factory_create(CGI_OBJECT item)
     cgi_event_dispatcher_t *dispatcher = NULL;
     cgi_thread_pool_t *pool = NULL;
 
-    switch(item) {
+    switch (item) {
         case HTTP_CONNECTION:
             connection = (cgi_http_connection_t *)
                 malloc(sizeof(cgi_http_connection_t));

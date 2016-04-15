@@ -8,7 +8,7 @@
 
 void do_response(cgi_http_connection_t *connection)
 {
-    while(!cgi_pslist_is_empty(connection->head)) {
+    while (!cgi_pslist_is_empty(connection->head)) {
         cgi_pslist_t *head = connection->head;
         printf("%s: %s\n", head->key, head->value);
         cgi_pslist_remove_head(&connection->head);

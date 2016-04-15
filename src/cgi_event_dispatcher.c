@@ -53,9 +53,9 @@ void cgi_event_dispatcher_addpipe(cgi_event_dispatcher_t *dispatcher)
         if (!usable) {
             usable = 1;
             pthread_mutex_unlock(&mlock);
-            if(socketpair(AF_UNIX,SOCK_STREAM,0,pipefd) != -1) {
+            if (socketpair(AF_UNIX, SOCK_STREAM, 0, pipefd) != -1) {
                 cgi_event_dispatcher_set_nonblocking(pipefd[1]);
-                cgi_event_dispatcher_addfd(dispatcher,pipefd[0],1,0);
+                cgi_event_dispatcher_addfd(dispatcher, pipefd[0], 1, 0);
             }
         } else {
             pthread_mutex_unlock(&mlock);
@@ -74,26 +74,19 @@ void cgi_event_dispatcher_addfd(cgi_event_dispatcher_t *dispatcher,
     struct epoll_event event;
     event.data.fd = fd;
     event.events = EPOLLET | EPOLLRDHUP;
-    if (in) {
-        event.events |= EPOLLIN;
-    } else {
-        event.events |= EPOLLOUT;
-    }
-    if (oneshot) {
+    event.events |= in ? EPOLLIN : EPOLLOUT;
+    if (oneshot)
         event.events |= EPOLLONESHOT;
-    }
-    if (epoll_ctl(dispatcher->epfd,EPOLL_CTL_ADD,fd,&event) == -1) {
+    if (epoll_ctl(dispatcher->epfd,EPOLL_CTL_ADD,fd,&event) == -1)
         perror("epoll_ctl");
-    }
     cgi_event_dispatcher_set_nonblocking(fd);
 }
 
 void cgi_event_dispatcher_rmfd(cgi_event_dispatcher_t *dispatcher,
                                int fd)
 {
-    if (epoll_ctl(dispatcher->epfd, EPOLL_CTL_DEL, fd, NULL) == -1) {
+    if (epoll_ctl(dispatcher->epfd, EPOLL_CTL_DEL, fd, NULL) == -1)
         perror("epoll_ctl");
-    }
 }
 
 void cgi_event_dispatcher_modfd(cgi_event_dispatcher_t *dispatcher,
@@ -102,16 +95,15 @@ void cgi_event_dispatcher_modfd(cgi_event_dispatcher_t *dispatcher,
     struct epoll_event event;
     event.data.fd = fd;
     event.events = ev | EPOLLET | EPOLLRDHUP | EPOLLONESHOT;
-    epoll_ctl(dispatcher->epfd,EPOLL_CTL_MOD,fd,&event);
+    epoll_ctl(dispatcher->epfd, EPOLL_CTL_MOD, fd, &event);
 }
 
 void cgi_event_dispatcher_set_nonblocking(int fd)
 {
-    int fsflags = fcntl(fd,F_GETFL);
+    int fsflags = fcntl(fd, F_GETFL);
     fsflags |= O_NONBLOCK;
-    if (fcntl(fd,F_SETFL,fsflags) == -1) {
+    if (fcntl(fd, F_SETFL, fsflags) == -1)
         perror("fcntl");
-    }
 }
 
 void cgi_event_dispatcher_loop(cgi_event_dispatcher_t *dispatcher)
@@ -136,21 +128,19 @@ void cgi_event_dispatcher_loop(cgi_event_dispatcher_t *dispatcher)
             tmpfd = event.data.fd;
             if (tmpfd == dispatcher->listenfd) {
                 cfd = accept(tmpfd, &clientaddr, &clientlen);
-                if (cfd == -1) {
+                if (cfd == -1)
                     perror("cfd");
-                }
                 cgi_event_dispatcher_addfd(dispatcher, cfd, 1, 1);
                 cgi_http_connection_init5(dispatcher->connections + cfd,
                                           dispatcher,
                                           cfd, &clientaddr, clientlen);
             } else if (event.events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)) {
-                cgi_event_dispatcher_rmfd(dispatcher,tmpfd);
+                cgi_event_dispatcher_rmfd(dispatcher, tmpfd);
             } else if (event.events & EPOLLIN) {
                 if (tmpfd == pipefd[0]) {
-                    retcode = recv(pipefd[0], &signum, sizeof(signum),0);
-                    if (retcode <= 0) {
+                    retcode = recv(pipefd[0], &signum, sizeof(signum), 0);
+                    if (retcode <= 0)
                         continue;
-                    }
                     switch (signum) {
                         case SIGCHLD:
                         case SIGHUP:

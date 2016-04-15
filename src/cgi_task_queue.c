@@ -5,7 +5,7 @@
 #include "factory/cgi_factory.h"
 #include "utils/cgi_task_queue.h"
 
-cgi_task_queue_t *cgi_task_queue_create(void *(*callback)(void*), void *arg)
+cgi_task_queue_t *cgi_task_queue_create(void *(*callback)(void *), void *arg)
 {
     cgi_task_queue_t *node = cgi_factory_create(TASK_QUEUE);
     node->callback = callback;
